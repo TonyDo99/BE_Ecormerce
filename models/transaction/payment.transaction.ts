@@ -30,6 +30,7 @@ export const payment_Transaction = async (
   await PaymentModel.create({
     customer: user._id,
     cart: user.cart,
+    paid: req.body.totalHasVoucher,
     paid_status: PAID_STATUS.DONE,
   });
 
