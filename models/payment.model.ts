@@ -20,6 +20,10 @@ const paymentSchema = new Schema<IHistoryPayment>(
       ref: "accounts",
     },
     cart: Array<IProduct>,
+    paid: {
+      type: Schema.Types.Number,
+      default: 0,
+    },
     paid_status: {
       type: String,
       enum: PAID_STATUS,
