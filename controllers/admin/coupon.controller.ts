@@ -80,7 +80,7 @@ export async function getAllCoupon(
   res: Response
 ): Promise<Response> {
   try {
-    let coupons = await CouponModel.find({});
+    let coupons = await CouponModel.find({}, { _id: false });
 
     return res.status(200).json({
       status: true,
