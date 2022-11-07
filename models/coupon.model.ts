@@ -20,7 +20,7 @@ export interface ICoupon {
   shipping_discount: number;
   used: boolean;
   logo: string;
-  brand: string;
+  title: string;
 }
 
 const couponSchema = new Schema<ICoupon>(
@@ -50,6 +50,9 @@ const couponSchema = new Schema<ICoupon>(
     logo: {
       type: String,
       required: [true, "MONGODB logo field can't not be blank !"],
+    },
+    title: {
+      type: String,
     },
   },
   {
