@@ -26,23 +26,24 @@ export async function updateCoupon(
   req: Request,
   res: Response
 ): Promise<Response> {
-  let { id } = req.params;
+  let { code } = req.params;
   try {
     let updated = await CouponModel.findOneAndUpdate(
-      { code: parseInt(id) },
+      { code: parseInt(code) },
       {
         ...req.body,
+        percent_discount: req.body.percent_discount / 100,
         updatedAt: Date(),
       }
     );
     if (!updated)
       return res.status(404).json({
         status: false,
-        message: `This coupon code ${id} might be not exist anymore !`,
+        message: `This coupon code ${code} might be not exist anymore !`,
       });
     return res.status(200).json({
       status: true,
-      message: `Congratulation coupon code ${id} updated successfully !`,
+      message: `Congratulation coupon code ${code} updated successfully !`,
     });
   } catch (error) {
     console.error(`%c ${error}`, "color: red");
@@ -54,21 +55,21 @@ export async function deleteCoupon(
   req: Request,
   res: Response
 ): Promise<Response> {
-  let { id } = req.params;
+  let { code } = req.params;
   try {
     let { deletedCount } = await CouponModel.deleteOne(
-      { code: parseInt(id) },
+      { code: parseInt(code) },
       {}
     );
 
     if (!deletedCount)
       return res
         .status(404)
-        .json({ status: false, message: `Coupon code ${id} not found !` });
+        .json({ status: false, message: `Coupon code ${code} not found !` });
 
     return res
       .status(200)
-      .json({ status: false, message: `Coupon code ${id} was deleted !` });
+      .json({ status: true, message: `Coupon code ${code} was deleted !` });
   } catch (error) {
     console.error(`%c ${error}`, "color: red");
     return res.status(400).send(error);
@@ -86,6 +87,28 @@ export async function getAllCoupon(
       status: true,
       message: `Get list of coupons successfully !`,
       coupons,
+    });
+  } catch (error) {
+    console.error(`%c ${error}`, "color: red");
+    return res.status(400).send(error);
+  }
+}
+
+export async function getDetailCoupon(req: Request, res: Response) {
+  try {
+    let coupon = await CouponModel.findOne(
+      { code: +req.params.code },
+      { _id: false }
+    );
+    if (!coupon)
+      return res.status(404).json({
+        status: false,
+        message: `Coupon ${+req.params.code} not found !`,
+      });
+    return res.status(200).json({
+      status: true,
+      message: `Get coupon ${+req.params.code} success !`,
+      data: coupon,
     });
   } catch (error) {
     console.error(`%c ${error}`, "color: red");

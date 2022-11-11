@@ -5,9 +5,11 @@ import {
   createCoupon,
   deleteCoupon,
   getAllCoupon,
+  getDetailCoupon,
   updateCoupon,
 } from "../../controllers/admin/coupon.controller";
 import { validateRequest } from "../../middleware/validate-request";
+
 const router = Router();
 
 const upload = multer({ dest: undefined });
@@ -25,6 +27,19 @@ const DISCOUNT_PERCENT = [
 ];
 
 router.get("/all", getAllCoupon);
+
+router.get(
+  "/:code",
+  checkSchema({
+    code: {
+      in: ["params"],
+      errorMessage: "code coupon must be a number",
+      isInt: true,
+      toInt: true,
+    },
+  }),
+  getDetailCoupon
+);
 
 router.post(
   "/create",
@@ -54,11 +69,12 @@ router.post(
 );
 
 router.patch(
-  "/:id",
+  "/:code",
+  upload.single("logo"),
   checkSchema({
-    id: {
+    code: {
       in: ["params"],
-      errorMessage: "ID coupon must be a number",
+      errorMessage: "code coupon must be a number",
       isInt: true,
       toInt: true,
     },
@@ -78,11 +94,11 @@ router.patch(
 );
 
 router.delete(
-  "/:id",
+  "/:code",
   checkSchema({
-    id: {
+    code: {
       in: ["params"],
-      errorMessage: "ID coupon must be a number",
+      errorMessage: "code coupon must be a number",
       isInt: true,
       toInt: true,
     },
