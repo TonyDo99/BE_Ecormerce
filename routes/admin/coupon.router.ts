@@ -6,6 +6,7 @@ import {
   deleteCoupon,
   getAllCoupon,
   updateCoupon,
+  getDetailCoupon,
 } from "../../controllers/admin/coupon.controller";
 import { validateRequest } from "../../middleware/validate-request";
 const router = Router();
@@ -54,11 +55,12 @@ router.post(
 );
 
 router.patch(
-  "/:id",
+  "/:code",
+  upload.single("logo"),
   checkSchema({
-    id: {
+    code: {
       in: ["params"],
-      errorMessage: "ID coupon must be a number",
+      errorMessage: "code coupon must be a number",
       isInt: true,
       toInt: true,
     },
@@ -78,16 +80,29 @@ router.patch(
 );
 
 router.delete(
-  "/:id",
+  "/:code",
   checkSchema({
-    id: {
+    code: {
       in: ["params"],
-      errorMessage: "ID coupon must be a number",
+      errorMessage: "code coupon must be a number",
       isInt: true,
       toInt: true,
     },
   }),
   deleteCoupon
+);
+
+router.get(
+  "/:code",
+  checkSchema({
+    code: {
+      in: ["params"],
+      errorMessage: "code coupon must be a number",
+      isInt: true,
+      toInt: true,
+    },
+  }),
+  getDetailCoupon
 );
 
 export default router;
