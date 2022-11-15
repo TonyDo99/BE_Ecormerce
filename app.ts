@@ -12,7 +12,6 @@ import client from "./routes/client/index";
 import "dotenv/config";
 
 import "./socket/config";
-import { validationResult } from "express-validator";
 const app = express();
 
 app.use(

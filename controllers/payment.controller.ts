@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import _ from "lodash";
 import { startSession } from "mongoose";
 import { payment_Transaction } from "../models/transaction/payment.transaction";
+import { notificationPayment } from "../socket/client/notification";
 export const payment = async (req: Request, res: Response) => {
   let session = await startSession();
   try {
@@ -18,6 +19,7 @@ export const payment = async (req: Request, res: Response) => {
     );
     await session.abortTransaction();
     await session.endSession();
+    await notificationPayment(false);
     return res.status(400).json(error);
   }
 };

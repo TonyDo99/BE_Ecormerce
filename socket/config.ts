@@ -9,7 +9,6 @@ export const io = new Server(httpServer, {
   },
 });
 
-
 httpServer.listen(5000);
 
 io.on("connection", (socket: Socket) => {

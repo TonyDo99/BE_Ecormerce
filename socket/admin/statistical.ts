@@ -7,29 +7,28 @@ import { io } from "../config";
 // Total dashboard statistical
 io.of("/admin").on("connection", (socket: Socket) => {
   // API for dashboard page
+  console.log(`Connecting namespace socket admin ${socket.id}`);
   socket.on("dashboard:statistical", async () => {
-    setInterval(async () => {
-      let total = 0;
-      let totalBought = await AccountsModel.find(
-        { cart: { $exists: true, $type: "array", $not: { $size: 0 } } },
-        "cart"
-      );
+    let total = 0;
+    let totalBought = await AccountsModel.find(
+      { cart: { $exists: true, $type: "array", $not: { $size: 0 } } },
+      "cart"
+    );
 
-      let totalCustomers = await AccountsModel.countDocuments({});
+    let totalCustomers = await AccountsModel.countDocuments({});
 
-      let equity: any = await ProductsModel.find();
+    let equity: any = await ProductsModel.find();
 
-      _.forEach(totalBought, ({ cart }) => {
-        _.forEach(cart, ({ price }) => (total += price));
-      });
+    _.forEach(totalBought, ({ cart }) => {
+      _.forEach(cart, ({ price }) => (total += price));
+    });
 
-      socket.emit("statistical", {
-        totalCustomers,
-        totalCustomersBought: totalBought.length,
-        equity: _.reduce(equity, (sum, n) => sum + n.price, 0),
-        totalCustomersNotBuy: totalCustomers - totalBought.length,
-        statistical: total.toFixed(2),
-      });
-    }, 3000);
+    socket.emit("statistical", {
+      totalCustomers,
+      totalCustomersBought: totalBought.length,
+      equity: _.reduce(equity, (sum, n) => sum + n.price, 0),
+      totalCustomersNotBuy: totalCustomers - totalBought.length,
+      statistical: total.toFixed(2),
+    });
   });
 });

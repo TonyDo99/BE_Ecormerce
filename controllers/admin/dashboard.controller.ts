@@ -1,6 +1,5 @@
 import AccountsModel from "../../models/account.model";
 import { Request, Response } from "express";
-import "../../socket/admin/statistical";
 
 export function getDashboard(req: Request, res: Response) {
   return res.status(200);

@@ -6,6 +6,7 @@ import productRouter from "./products.router";
 import couponRouter from "./coupon.router";
 const router = Router();
 
+import "../../socket/admin/statistical";
 router.use("/admin", accountRouter);
 router.use("/dashboard", authen, dashboardRouter);
 router.use("/admin", productRouter);
