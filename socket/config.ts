@@ -13,4 +13,7 @@ httpServer.listen(5000);
 
 io.on("connection", (socket: Socket) => {
   console.log(`Socket connection successfully with id ${socket.id}`);
+  socket.on("disconnect", () =>
+    console.log(`Socket with id ${socket.id} was disconnected`)
+  );
 });
