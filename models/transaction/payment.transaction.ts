@@ -34,10 +34,9 @@ export const payment_Transaction = async (
     paid: req.body.totalHasVoucher,
     paid_status: PAID_STATUS.DONE,
   });
-
   await notificationPayment(true);
 
-  return res.status(200).json({
+  res.status(200).json({
     status: true,
     message: "Payment successful ! Have a nice day",
   });
