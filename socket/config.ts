@@ -1,5 +1,5 @@
 import { createServer } from "http";
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 
 const httpServer = createServer();
 
@@ -11,8 +11,6 @@ const io = new Server(httpServer, {
 
 httpServer.listen(5000);
 
-io.on("connection", (socket: Socket) => {
-  console.log(`Socket connection successfully with id ${socket.id}`);
-});
+const io_admin = io.of("/admin");
 
-export { io };
+export { io_admin };

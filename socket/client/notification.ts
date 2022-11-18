@@ -1,21 +1,17 @@
-import { Socket } from "socket.io";
-import { io } from "../config";
+import { io_admin } from "../config";
 
-export const notificationPayment = async (paid_status: boolean) => {
-  if (paid_status) {
-    io.of("/admin", (admin_socket: Socket) => {
-      console.log(admin_socket.id);
-      admin_socket.emit("notification", {
-        status: true,
-        message: "Paid success",
-      });
-    });
+export const notificationPayment = async ({
+  ...agrs
+}: {
+  paid: boolean;
+  message: string;
+}) => {
+  if (agrs.paid) {
+    io_admin.emit("notification", agrs);
   } else {
-    io.of("/admin", (admin_socket: Socket) => {
-      admin_socket.emit("notification", {
-        status: false,
-        message: "Paid failed",
-      });
+    io_admin.emit("notification", {
+      status: false,
+      message: "Paid failed",
     });
   }
 };

@@ -2,10 +2,10 @@ import _ from "lodash";
 import { Socket } from "socket.io";
 import AccountsModel from "../../models/account.model";
 import ProductsModel from "../../models/product.model";
-import { io } from "../config";
+import { io_admin } from "../config";
 
 // Total dashboard statistical
-io.of("/admin").on("connection", (socket: Socket) => {
+io_admin.on("connection", (socket: Socket) => {
   // API for dashboard page
   console.log(`Connecting namespace socket admin ${socket.id}`);
   socket.on("dashboard:statistical", async () => {
