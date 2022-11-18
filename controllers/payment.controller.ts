@@ -19,7 +19,11 @@ export const payment = async (req: Request, res: Response) => {
     );
     await session.abortTransaction();
     await session.endSession();
-    await notificationPayment(false);
+    await notificationPayment({
+      paid: false,
+      message:
+        "There's one client have problem with pay check. Admin please check your settings !",
+    });
     return res.status(400).json(error);
   }
 };
