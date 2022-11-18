@@ -11,7 +11,6 @@ import admin from "./routes/admin/index";
 import client from "./routes/client/index";
 import "dotenv/config";
 
-import "./socket/config";
 const app = express();
 
 app.use(
