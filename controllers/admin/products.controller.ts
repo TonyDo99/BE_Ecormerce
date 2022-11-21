@@ -78,24 +78,7 @@ export async function addToCart(req: Request, res: Response) {
     console.error(`%c ${error}`, "color: red");
   }
 }
-export async function updateProducts(req: Request, res: Response) {
-  try {
-    let { _id } = req.params;
-    let userid = res.locals.userID;
-    await AccountsModel.updateOne({ _id: userid }, { cart: req.body }).exec();
-    let item = await ProductsModel.findById(_id);
-    if (!item)
-      return res
-        .status(401)
-        .json({ status: false, message: "This product is not exist !" });
-    let { quantity } = item;
-    quantity += 1;
-    await ProductsModel.findByIdAndUpdate(_id, { quantity }).exec();
-  } catch (error: any) {
-    res.status(401).json({ status: false, message: error });
-    console.error(`%c ${error}`, "color: red");
-  }
-}
+
 export async function insertProducts(req: Request, res: Response) {
   try {
     const { name, status, quantity, price, path } = req.body;
@@ -111,5 +94,21 @@ export async function insertProducts(req: Request, res: Response) {
   } catch (error: any) {
     res.status(401).json({ status: false, message: error });
     console.error(`%c ${error}`, "color: red");
+  }
+}
+
+export async function updateProduct(req: Request, res: Response) {
+  try {
+    await ProductsModel.findByIdAndUpdate(req.params._id, {
+      ...req.body,
+      updated_at: Date(),
+    });
+    return res.status(200).json({
+      status: true,
+      message: `Congratulation coupon code ${req.params._id} updated successfully !`,
+    });
+  } catch (error) {
+    console.error(`%c ${error}`, "color: red");
+    return res.status(400).send(error);
   }
 }
