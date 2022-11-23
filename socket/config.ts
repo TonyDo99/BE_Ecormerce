@@ -13,4 +13,6 @@ httpServer.listen(5000);
 
 const io_admin = io.of("/admin");
 
-export { io_admin };
+const io_client = io.of("/client");
+
+export { io_admin, io_client };
