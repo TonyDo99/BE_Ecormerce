@@ -10,6 +10,7 @@ import methodOverride from "method-override";
 import admin from "./routes/admin/index";
 import client from "./routes/client/index";
 import "dotenv/config";
+import "./firebase.js";
 
 const app = express();
 
