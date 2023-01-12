@@ -4,7 +4,7 @@ const client = createClient({
   url: `${
     process.env.NODE_ENV === "dev"
       ? "redis://localhost:6379"
-      : `redis://${process.env.REDIS_USER}:${process.env.REDIS_USER_PASSWORD}@redis-15843.c302.asia-northeast1-1.gce.cloud.redislabs.com:15843`
+      : `redis://${process.env.REDIS_USER}:${process.env.REDIS_USER_PASSWORD}@${process.env.REDIS_END_POINT}`
   }`,
   commandsQueueMaxLength: 1000,
 });
